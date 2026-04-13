@@ -23,11 +23,6 @@ public class RingBuffer<TItem>
   public void Push(TItem item)
   {
     _buffer[_head] = item;
-
-    _head++;
-    if (_head == Capacity)
-    {
-      _head = 0;
-    }
+    _head = (_head + 1 == Capacity) ? 0 : _head + 1;
   }
 }
