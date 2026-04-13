@@ -19,4 +19,15 @@ public class RingBuffer<TItem>
   }
 
   public int Capacity { get; }
+
+  public void Push(TItem item)
+  {
+    _buffer[_head] = item;
+
+    _head++;
+    if (_head == Capacity)
+    {
+      _head = 0;
+    }
+  }
 }
