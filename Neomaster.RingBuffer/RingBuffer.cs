@@ -5,7 +5,9 @@ namespace Neomaster.RingBuffer;
 
 public class RingBuffer<TItem>
 {
+  private readonly int _capacity;
   private readonly TItem[] _buffer;
+
   private int _head;
 
   public RingBuffer(int capacity)
@@ -15,8 +17,8 @@ public class RingBuffer<TItem>
       throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
     }
 
+    _capacity = capacity;
     _buffer = new TItem[capacity];
-    Capacity = capacity;
   }
 
   public int Capacity { get; }
@@ -27,19 +29,19 @@ public class RingBuffer<TItem>
   public void Push(TItem item)
   {
     _buffer[_head] = item;
-    _head = (_head + 1 == Capacity) ? 0 : _head + 1;
+    _head = (_head + 1 == _capacity) ? 0 : _head + 1;
   }
 
   public bool Match(ReadOnlySpan<TItem> items, IEqualityComparer<TItem> comparer = null)
   {
-    if (items.Length == 0 || items.Length > Capacity)
+    if (items.Length == 0 || items.Length > _capacity)
     {
       return false;
     }
 
     comparer ??= EqualityComparer<TItem>.Default;
 
-    var j = _head == 0 ? Capacity - 1 : _head - 1;
+    var j = _head == 0 ? _capacity - 1 : _head - 1;
     for (var i = items.Length - 1; i >= 0; i++)
     {
       if (!comparer.Equals(items[i], _buffer[j]))
@@ -47,7 +49,7 @@ public class RingBuffer<TItem>
         return false;
       }
 
-      j = j == 0 ? Capacity - 1 : j - 1;
+      j = j == 0 ? _capacity - 1 : j - 1;
     }
 
     return true;
