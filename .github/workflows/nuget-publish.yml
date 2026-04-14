@@ -1,0 +1,36 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore Neomaster.RingBuffer/Neomaster.RingBuffer.csproj
+
+      - name: Build project
+        run: dotnet build Neomaster.RingBuffer/Neomaster.RingBuffer.csproj --configuration Release --no-restore
+
+      - name: Build and run unit tests
+        run: |
+          dotnet build Neomaster.RingBuffer.UnitTests/Neomaster.RingBuffer.UnitTests.csproj --configuration Release
+          dotnet test Neomaster.RingBuffer.UnitTests/Neomaster.RingBuffer.UnitTests.csproj --configuration Release --no-build
+
+      - name: Pack NuGet package
+        run: dotnet pack Neomaster.RingBuffer/Neomaster.RingBuffer.csproj --configuration Release --no-build --output ./nupkg
+
+      - name: Publish package to NuGet.org
+        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
