@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".github/workflows/nuget-publish.yml" />
+  </Folder>
   <Project Path="Neomaster.RingBuffer.Tests/Neomaster.RingBuffer.Tests.csproj" Id="8328f115-71e3-4c16-b930-3f79c9a6d5d3" />
   <Project Path="Neomaster.RingBuffer/Neomaster.RingBuffer.csproj" Id="64aa04ac-ca24-4614-9cfb-a1244971f46c" />
 </Solution>

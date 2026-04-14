@@ -26,8 +26,8 @@ jobs:
 
       - name: Build and run unit tests
         run: |
-          dotnet build Neomaster.RingBuffer.UnitTests/Neomaster.RingBuffer.UnitTests.csproj --configuration Release
-          dotnet test Neomaster.RingBuffer.UnitTests/Neomaster.RingBuffer.UnitTests.csproj --configuration Release --no-build
+          dotnet build Neomaster.RingBuffer.Tests/Neomaster.RingBuffer.Tests.csproj --configuration Release
+          dotnet test Neomaster.RingBuffer.Tests/Neomaster.RingBuffer.Tests.csproj --configuration Release --no-build
 
       - name: Pack NuGet package
         run: dotnet pack Neomaster.RingBuffer/Neomaster.RingBuffer.csproj --configuration Release --no-build --output ./nupkg
