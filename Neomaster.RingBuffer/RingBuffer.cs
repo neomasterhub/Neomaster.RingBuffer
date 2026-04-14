@@ -32,7 +32,7 @@ public class RingBuffer<TItem>
     _head = (_head + 1 == _capacity) ? 0 : _head + 1;
   }
 
-  public bool Match(ReadOnlySpan<TItem> items, IEqualityComparer<TItem> comparer = null)
+  public bool EndsWith(ReadOnlySpan<TItem> items, IEqualityComparer<TItem> comparer = null)
   {
     if (items.Length == 0 || items.Length > _capacity)
     {
