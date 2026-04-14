@@ -21,9 +21,7 @@ public class RingBufferTests
     var buffer = new RingBuffer<int>(capacity);
 
     Assert.Equal(capacity, buffer.Capacity);
-    Assert.Equal(defaultBuffer, buffer.Buffer.ToArray());
-    Assert.Equal([], buffer.Left.ToArray());
-    Assert.Equal(defaultBuffer, buffer.Right.ToArray());
+    CheckData(buffer, defaultBuffer, [], defaultBuffer);
   }
 
   [Fact]
@@ -32,23 +30,26 @@ public class RingBufferTests
     var buffer = new RingBuffer<int>(3);
 
     buffer.Push(1);
-    Assert.Equal([1, 0, 0], buffer.Buffer.ToArray());
-    Assert.Equal([1], buffer.Left.ToArray());
-    Assert.Equal([0, 0], buffer.Right.ToArray());
+    CheckData(buffer, [1, 0, 0], [1], [0, 0]);
 
     buffer.Push(2);
-    Assert.Equal([1, 2, 0], buffer.Buffer.ToArray());
-    Assert.Equal([1, 2], buffer.Left.ToArray());
-    Assert.Equal([0], buffer.Right.ToArray());
+    CheckData(buffer, [1, 2, 0], [1, 2], [0]);
 
     buffer.Push(3);
-    Assert.Equal([1, 2, 3], buffer.Buffer.ToArray());
-    Assert.Equal([], buffer.Left.ToArray());
-    Assert.Equal([1, 2, 3], buffer.Right.ToArray());
+    CheckData(buffer, [1, 2, 3], [], [1, 2, 3]);
 
     buffer.Push(4);
-    Assert.Equal([4, 2, 3], buffer.Buffer.ToArray());
-    Assert.Equal([4], buffer.Left.ToArray());
-    Assert.Equal([2, 3], buffer.Right.ToArray());
+    CheckData(buffer, [4, 2, 3], [4], [2, 3]);
+  }
+
+  private static void CheckData(
+    RingBuffer<int> buffer,
+    int[] expectedBuffer,
+    int[] expectedLeft,
+    int[] expectedRight)
+  {
+    Assert.Equal(expectedBuffer, buffer.Buffer.ToArray());
+    Assert.Equal(expectedLeft, buffer.Left.ToArray());
+    Assert.Equal(expectedRight, buffer.Right.ToArray());
   }
 }
