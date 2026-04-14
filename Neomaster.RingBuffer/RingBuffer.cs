@@ -5,10 +5,10 @@ namespace Neomaster.RingBuffer;
 
 public class RingBuffer<TItem>
 {
-  private readonly int _capacity;
-  private readonly TItem[] _buffer;
+  protected readonly int _capacity;
+  protected readonly TItem[] _buffer;
 
-  private int _head;
+  protected int _head;
 
   public RingBuffer(int capacity)
   {
