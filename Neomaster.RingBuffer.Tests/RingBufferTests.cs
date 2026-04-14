@@ -25,4 +25,30 @@ public class RingBufferTests
     Assert.Equal([], buffer.Left.ToArray());
     Assert.Equal(defaultBuffer, buffer.Right.ToArray());
   }
+
+  [Fact]
+  public void Push()
+  {
+    var buffer = new RingBuffer<int>(3);
+
+    buffer.Push(1);
+    Assert.Equal([1, 0, 0], buffer.Buffer.ToArray());
+    Assert.Equal([1], buffer.Left.ToArray());
+    Assert.Equal([0, 0], buffer.Right.ToArray());
+
+    buffer.Push(2);
+    Assert.Equal([1, 2, 0], buffer.Buffer.ToArray());
+    Assert.Equal([1, 2], buffer.Left.ToArray());
+    Assert.Equal([0], buffer.Right.ToArray());
+
+    buffer.Push(3);
+    Assert.Equal([1, 2, 3], buffer.Buffer.ToArray());
+    Assert.Equal([], buffer.Left.ToArray());
+    Assert.Equal([1, 2, 3], buffer.Right.ToArray());
+
+    buffer.Push(4);
+    Assert.Equal([4, 2, 3], buffer.Buffer.ToArray());
+    Assert.Equal([4], buffer.Left.ToArray());
+    Assert.Equal([2, 3], buffer.Right.ToArray());
+  }
 }
