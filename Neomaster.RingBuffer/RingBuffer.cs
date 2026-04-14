@@ -19,6 +19,7 @@ public class RingBuffer<TItem>
   }
 
   public int Capacity { get; }
+  public ReadOnlySpan<TItem> Buffer => _buffer;
   public ReadOnlySpan<TItem> Left => _buffer.AsSpan(0, _head);
   public ReadOnlySpan<TItem> Right => _buffer.AsSpan(_head);
 
