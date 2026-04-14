@@ -43,6 +43,38 @@ public class RingBufferTests
   }
 
   [Fact]
+  public void StartsWith()
+  {
+    var buffer = new RingBuffer<int>(3);
+    Assert.False(buffer.StartsWith([1]));
+    Assert.False(buffer.StartsWith([0, 0, 0, 0]));
+    Assert.True(buffer.StartsWith([]));
+    Assert.True(buffer.StartsWith([0]));
+    Assert.True(buffer.StartsWith([0, 0]));
+    Assert.True(buffer.StartsWith([0, 0, 0]));
+
+    buffer.Push(1);
+    Assert.True(buffer.StartsWith([0]));
+    Assert.True(buffer.StartsWith([0, 0]));
+    Assert.True(buffer.StartsWith([0, 0, 1]));
+
+    buffer.Push(2);
+    Assert.True(buffer.StartsWith([0]));
+    Assert.True(buffer.StartsWith([0, 1]));
+    Assert.True(buffer.StartsWith([0, 1, 2]));
+
+    buffer.Push(3);
+    Assert.True(buffer.StartsWith([1]));
+    Assert.True(buffer.StartsWith([1, 2]));
+    Assert.True(buffer.StartsWith([1, 2, 3]));
+
+    buffer.Push(4);
+    Assert.True(buffer.StartsWith([2]));
+    Assert.True(buffer.StartsWith([2, 3]));
+    Assert.True(buffer.StartsWith([2, 3, 4]));
+  }
+
+  [Fact]
   public void EndsWith()
   {
     var buffer = new RingBuffer<int>(3);
