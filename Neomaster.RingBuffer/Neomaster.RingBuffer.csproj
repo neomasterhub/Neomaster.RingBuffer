@@ -4,6 +4,30 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latestMajor</LangVersion>
     <Nullable>disable</Nullable>
+    <PackageId>RingBuffer</PackageId>
+    <PackageIcon>logo.png</PackageIcon>
+    <Version>1.0.0</Version>
+    <Authors>Neomaster</Authors>
+    <Company>Neomaster</Company>
+    <Copyright>Copyright © 2026 Neomaster</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/neomasterhub/Neomaster.RingBuffer</RepositoryUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <Description>
+      Lightweight and high-performance circular buffer.
+    </Description>
+    <PackageTags>
+      ringbuffer;ring-buffer;circular-buffer;cyclic-buffer;fixed-size-buffer;buffer;buffering;
+      input-history;state-history;sequence-matching;
+      csharp;dotnet;
+      neomaster
+    </PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../Docs/img/logo.png" Pack="true" PackagePath="" />
+    <None Include="../readme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
 </Project>
