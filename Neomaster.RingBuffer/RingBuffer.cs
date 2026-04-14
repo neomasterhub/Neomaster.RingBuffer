@@ -21,7 +21,7 @@ public class RingBuffer<TItem>
     _buffer = new TItem[capacity];
   }
 
-  public int Capacity { get; }
+  public int Capacity => _capacity;
   public ReadOnlySpan<TItem> Buffer => _buffer;
   public ReadOnlySpan<TItem> Left => _buffer.AsSpan(0, _head);
   public ReadOnlySpan<TItem> Right => _buffer.AsSpan(_head);
@@ -34,7 +34,12 @@ public class RingBuffer<TItem>
 
   public bool EndsWith(ReadOnlySpan<TItem> items, IEqualityComparer<TItem> comparer = null)
   {
-    if (items.Length == 0 || items.Length > _capacity)
+    if (items.Length == 0)
+    {
+      return true;
+    }
+
+    if (items.Length > _capacity)
     {
       return false;
     }
@@ -42,7 +47,7 @@ public class RingBuffer<TItem>
     comparer ??= EqualityComparer<TItem>.Default;
 
     var j = _head == 0 ? _capacity - 1 : _head - 1;
-    for (var i = items.Length - 1; i >= 0; i++)
+    for (var i = items.Length - 1; i >= 0; i--)
     {
       if (!comparer.Equals(items[i], _buffer[j]))
       {

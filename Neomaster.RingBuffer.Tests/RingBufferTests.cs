@@ -42,6 +42,38 @@ public class RingBufferTests
     CheckData(buffer, [4, 2, 3], [4], [2, 3]);
   }
 
+  [Fact]
+  public void EndsWith()
+  {
+    var buffer = new RingBuffer<int>(3);
+    Assert.False(buffer.EndsWith([1]));
+    Assert.False(buffer.EndsWith([0, 0, 0, 0]));
+    Assert.True(buffer.EndsWith([]));
+    Assert.True(buffer.EndsWith([0]));
+    Assert.True(buffer.EndsWith([0, 0]));
+    Assert.True(buffer.EndsWith([0, 0, 0]));
+
+    buffer.Push(1);
+    Assert.True(buffer.EndsWith([1]));
+    Assert.True(buffer.EndsWith([0, 1]));
+    Assert.True(buffer.EndsWith([0, 0, 1]));
+
+    buffer.Push(2);
+    Assert.True(buffer.EndsWith([2]));
+    Assert.True(buffer.EndsWith([1, 2]));
+    Assert.True(buffer.EndsWith([0, 1, 2]));
+
+    buffer.Push(3);
+    Assert.True(buffer.EndsWith([3]));
+    Assert.True(buffer.EndsWith([2, 3]));
+    Assert.True(buffer.EndsWith([1, 2, 3]));
+
+    buffer.Push(4);
+    Assert.True(buffer.EndsWith([4]));
+    Assert.True(buffer.EndsWith([3, 4]));
+    Assert.True(buffer.EndsWith([2, 3, 4]));
+  }
+
   private static void CheckData(
     RingBuffer<int> buffer,
     int[] expectedBuffer,
