@@ -32,6 +32,34 @@ public class RingBuffer<TItem>
     _head = (_head + 1 == _capacity) ? 0 : _head + 1;
   }
 
+  public bool StartsWith(ReadOnlySpan<TItem> items, IEqualityComparer<TItem> comparer = null)
+  {
+    if (items.Length == 0)
+    {
+      return true;
+    }
+
+    if (items.Length > _capacity)
+    {
+      return false;
+    }
+
+    comparer ??= EqualityComparer<TItem>.Default;
+
+    var j = _head;
+    for (var i = 0; i < items.Length; i++)
+    {
+      if (!comparer.Equals(items[i], _buffer[j]))
+      {
+        return false;
+      }
+
+      j = j + 1 == _capacity ? 0 : j + 1;
+    }
+
+    return true;
+  }
+
   public bool EndsWith(ReadOnlySpan<TItem> items, IEqualityComparer<TItem> comparer = null)
   {
     if (items.Length == 0)
